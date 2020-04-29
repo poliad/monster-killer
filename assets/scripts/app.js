@@ -3,7 +3,14 @@ const STRONG_ATTACK_VALUE= 18;
 const MONSTER_ATTACK_VALUE = 16;
 const HEAL_VALUE = 15;
 
-let maxHealth = 100;
+
+const enterdValue = prompt('Maximum life', '100');
+
+let maxHealth = parseInt(enterdValue);
+
+if(isNaN(maxHealth) || maxHealth <=0){
+    maxHealth=100;
+}
 let currentMonsterHealt = maxHealth;
 let currentPlayerHealt = maxHealth;
 let hasBonusLife = true;
@@ -13,7 +20,7 @@ adjustHealthBars(maxHealth);
 function reset(){
     currentMonsterHealt = maxHealth;
     currentPlayerHealt = maxHealth;
-    resetGame(maxHealth);
+    resetGame(maxHealth);  
 }
 
 function endRound(){
@@ -37,7 +44,7 @@ function endRound(){
     } else if(currentPlayerHealt <=0 && currentMonsterHealt <=0){
         alert('You have a draw');
         reset();
-    }
+    } 
 }
 
 function attackMonster(attackMode){
