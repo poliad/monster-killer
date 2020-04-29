@@ -1,12 +1,26 @@
 const ATTACK_VALUE = 10;
-const STRONG_ATTACK_VALUE= 17;
-const MONSTER_ATTACK_VALUE = 14;
+const STRONG_ATTACK_VALUE= 18;
+const MONSTER_ATTACK_VALUE = 16;
+const HEAL_VALUE = 15;
 
 let maxHealth = 100;
 let currentMonsterHealt = maxHealth;
 let currentPlayerHealt = maxHealth;
 
 adjustHealthBars(maxHealth);
+
+function endRound(){
+    const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
+    currentPlayerHealt -= playerDamage;
+
+    if(currentMonsterHealt <=0 && currentPlayerHealt > 0){
+        alert('You won!');
+    } else if(currentPlayerHealt <=0 && currentMonsterHealt > 0){
+        alert('You lost!');
+    } else if(currentPlayerHealt <=0 && currentMonsterHealt <=0){
+        alert('You have a draw');
+    }
+}
 
 function attackMonster(attackMode){
 
@@ -19,16 +33,8 @@ function attackMonster(attackMode){
 
     const monsterDamage = dealMonsterDamage(damage);
     currentMonsterHealt -= monsterDamage;
-    const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
-    currentPlayerHealt -= playerDamage;
+    endRound();
 
-    if(currentMonsterHealt <=0 && currentPlayerHealt > 0){
-        alert('You won!');
-    } else if(currentPlayerHealt <=0 && currentMonsterHealt > 0){
-        alert('You lost!');
-    } else if(currentPlayerHealt <=0 && currentMonsterHealt <=0){
-        alert('You have a draw');
-    }
 }
 
 function attackHandler(){
@@ -42,6 +48,18 @@ function strongAttackHandler(){
     attackMonster('STRONG-ATTACK')
 
 }
+function healHandler(){
+    let healValue;
+    if(currentPlayerHealt>= maxHealth - HEAL_VALUE){
+        healValue=maxHealth-currentPlayerHealt;
+    } else{
+        healValue=HEAL_VALUE;
+    }
+    increasePlayerHealth(healValue);
+    currentPlayerHealt += healValue;
+    endRound();
+}
 
 strongAttackBtn.addEventListener('click' , strongAttackHandler);
 attackBtn.addEventListener('click' , attackHandler);
+healBtn.addEventListener('click',healHandler);
