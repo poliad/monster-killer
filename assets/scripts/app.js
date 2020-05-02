@@ -124,8 +124,15 @@ function healHandler(){
     writeToLog(LOG_PLAYER_HEAL, healValue, currentMonsterHealt, currentPlayerHealt);
     endRound();
 }
+let id=1;
+
 function logHandler(){
-    console.log(battleLog);
+    for(let logEntry of battleLog){
+        for(const key in logEntry){
+            console.log(`#${id} ${key} => ${logEntry[key]}`);
+        }
+        id++;
+    }
 }
 
 strongAttackBtn.addEventListener('click' , strongAttackHandler);
