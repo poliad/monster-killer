@@ -21,8 +21,8 @@ if(isNaN(maxHealth) || maxHealth <=0){
     maxHealth=100;
 }
 
-let currentMonsterHealt = maxHealth;
-let currentPlayerHealt = maxHealth;
+let currentMonsterHealth = maxHealth;
+let currentPlayerHealth = maxHealth;
 let hasBonusLife = true;
 
 adjustHealthBars(maxHealth);
@@ -49,36 +49,36 @@ function writeToLog(event, value, monsterHealth, playerHealth){
 }
 
 function reset(){
-    currentMonsterHealt = maxHealth;
-    currentPlayerHealt = maxHealth;
+    currentMonsterHealth = maxHealth;
+    currentPlayerHealth = maxHealth;
     resetGame(maxHealth);  
 }
 
 function endRound(){
-    const initialPlayerHealth=currentPlayerHealt;
+    const initialPlayerHealth=currentPlayerHealth;
     const playerDamage = dealPlayerDamage(MONSTER_ATTACK_VALUE);
-    currentPlayerHealt -= playerDamage;
-    writeToLog(LOG_MONSTER_ATTACK, playerDamage, currentMonsterHealt, currentPlayerHealt);
+    currentPlayerHealth -= playerDamage;
+    writeToLog(LOG_MONSTER_ATTACK, playerDamage, currentMonsterHealth, currentPlayerHealth);
 
-    if(currentPlayerHealt<=0 && hasBonusLife){
+    if(currentPlayerHealth<=0 && hasBonusLife){
         hasBonusLife= false;
         removeBonusLife();
-        currentPlayerHealt=initialPlayerHealth;
+        currentPlayerHealth=initialPlayerHealth;
         setPlayerHealth(initialPlayerHealth);
         alert('You get a second chance!');
-        writeToLog(LOG_BONUS_LIFE, 'BONUS LIFE USED', currentMonsterHealt, initialPlayerHealth);
+        writeToLog(LOG_BONUS_LIFE, 'BONUS LIFE USED', currentMonsterHealth, initialPlayerHealth);
     }
-    if(currentMonsterHealt <=0 && currentPlayerHealt > 0){
+    if(currentMonsterHealth <=0 && currentPlayerHealth > 0){
         alert('You won!');
-        writeToLog(LOG_GAME_OVER, 'PLAYER WON',currentMonsterHealt, currentPlayerHealt);
+        writeToLog(LOG_GAME_OVER, 'PLAYER WON',currentMonsterHealth, currentPlayerHealth);
         reset();
-    } else if(currentPlayerHealt <=0 && currentMonsterHealt > 0){
+    } else if(currentPlayerHealth <=0 && currentMonsterHealth > 0){
         alert('You lost!');
-        writeToLog(LOG_GAME_OVER, 'MONSTER WON',currentMonsterHealt, currentPlayerHealt);
+        writeToLog(LOG_GAME_OVER, 'MONSTER WON',currentMonsterHealth, currentPlayerHealth);
         reset();
-    } else if(currentPlayerHealt <=0 && currentMonsterHealt <=0){
+    } else if(currentPlayerHealth <=0 && currentMonsterHealth <=0){
         alert('You have a draw');
-        writeToLog(LOG_GAME_OVER, 'DRAW',currentMonsterHealt, currentPlayerHealt);
+        writeToLog(LOG_GAME_OVER, 'DRAW',currentMonsterHealth, currentPlayerHealth);
         reset();
     } 
 }
@@ -96,8 +96,8 @@ function attackMonster(attackMode){
     }
 
     const monsterDamage = dealMonsterDamage(damage);
-    currentMonsterHealt -= monsterDamage;
-    writeToLog(logEvent, damage, currentMonsterHealt, currentPlayerHealt);
+    currentMonsterHealth -= monsterDamage;
+    writeToLog(logEvent, damage, currentMonsterHealth, currentPlayerHealth);
     endRound();
 
 }
@@ -114,14 +114,14 @@ function strongAttackHandler(){
 }
 function healHandler(){
     let healValue;
-    if(currentPlayerHealt>= maxHealth - HEAL_VALUE){
-        healValue=maxHealth-currentPlayerHealt;
+    if(currentPlayerHealth>= maxHealth - HEAL_VALUE){
+        healValue=maxHealth-currentPlayerHealth;
     } else{
         healValue=HEAL_VALUE;
     }
     increasePlayerHealth(healValue);
-    currentPlayerHealt += healValue;
-    writeToLog(LOG_PLAYER_HEAL, healValue, currentMonsterHealt, currentPlayerHealt);
+    currentPlayerHealth += healValue;
+    writeToLog(LOG_PLAYER_HEAL, healValue, currentMonsterHealth, currentPlayerHealth);
     endRound();
 }
 let id=1;
